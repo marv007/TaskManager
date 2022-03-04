@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +19,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    //UserController::index();
+    if(Auth::user()->hasRole('admin')){
+        $users = User::all();
+        return View::make('dashboard')
+        ->with( 'users', $users );//view('dashboard');
+    }else{
+        return "you're lost";
+    }
+   
 })->name('dashboard');
