@@ -20,7 +20,7 @@
                             <td>{{$user->name}} </td>
                             <td>{{$user->email}} </td>
                             <td>                                
-                                <a href="{{ URL::route('dashboard') }}" class="btn btn-warning"> View tasks </a>
+                                <a href="{{ URL::route('tasks', $user->id) }}" class="btn btn-warning"> View tasks </a>
                                 <a href="{{ URL::route('dashboard') }}" class="btn btn-warning"> Edit </a>
                                 @if(@Auth::user()->id != $user->id)
                                 <a href="{{ URL::route('dashboard') }}" class="btn btn-warning"> Delete </a>
