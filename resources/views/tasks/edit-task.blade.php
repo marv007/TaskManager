@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 lg:py-6">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 mx-20">
                 <x-jet-validation-errors class="mb-4" />
 
                 <form method="POST" action="{{ route('update-task', $task->id) }}">
@@ -26,7 +26,8 @@
 
                     <div class="mt-4">
                         <x-jet-label for="password" value="{{ __('Description') }}" />
-                        <x-jet-input id="password" class="block mt-1 w-full" type="text" rows="2" name="description" :value="$task->description" required />
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" id="description" name="description" style="resize:none" value="$task->description" required>{{$task->description}}</textarea>
+                        
                     </div>
 
 

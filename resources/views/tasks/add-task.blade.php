@@ -5,27 +5,27 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 lg:py-6">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 mx-20">
                 <x-jet-validation-errors class="mb-4" />
 
                 <form method="POST" action="{{ route('add-tasks') }}">
                     @csrf
 
                     <div>
-                        <x-jet-label for="name" value="{{ __('Title') }}" />
-                        <x-jet-input id="name" class="block mt-1 w-full" type="text" name="title" required autofocus autocomplete="name" />
+                        <x-jet-label for="title" value="{{ __('Title') }}" />
+                        <x-jet-input id="title" class="block mt-1 w-full" type="text" name="title" required autofocus />
                     </div>
 
                     <div class="mt-4">
-                        <x-jet-label for="email" value="{{ __('Priority') }}" />
-                        <x-jet-input id="email" class="block mt-1 w-full" type="text" name="priority" required />
+                        <x-jet-label for="priority" value="{{ __('Priority') }}" />
+                        <x-jet-input id="priority" class="block mt-1 w-full" type="text" name="priority" required />
                     </div>
 
                     <div class="mt-4">
-                        <x-jet-label for="password" value="{{ __('Description') }}" />
-                        <x-jet-input id="password" class="block mt-1 w-full" type="text" rows="2" name="description" required autocomplete="new-password" />
+                        <x-jet-label for="description" value="{{ __('Description') }}" />
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" id="description" name="description" style="resize:none" required></textarea>                        
                     </div>
 
 
