@@ -22,14 +22,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    //UserController::index();
-    if(Auth::user()->hasRole('admin')){
-        $users = User::all();
-        return View::make('dashboard')
-        ->with( 'users', $users );//view('dashboard');
-    }else{
-        //return "you're lost";
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {    
+    if(Auth::user()->hasRole('admin')){        
+        return UserController::index();        
+    }else{        
          return Redirect::route('tasks', Auth::user()->id);
     }
    
@@ -40,8 +36,7 @@ function ($user_id) {
     if(Auth::user()->hasRole('admin') || Auth::user()->id==$user_id){
         return TaskController::getByUserId($user_id);
     }else{
-        abort(404);      
-         //Redirect::route('tasks', Auth::user()->id);
+        abort(404);        
     }
     
 }
@@ -83,3 +78,16 @@ function ($id){
     return TaskController::delete($id);
 }
 )->name('delete-task');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-user/{id}', 
+function ($id) {
+    return UserController::edit($id);
+}
+)->name('edit-user');
+
+Route::middleware(['auth:sanctum', 'verified'])->put('/update-user/{id}', 
+function ($id, Request $request){
+    $request->id = $id;
+    return UserController::update($request);
+}
+)->name('update-user');
