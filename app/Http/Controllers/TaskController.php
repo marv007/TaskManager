@@ -14,27 +14,25 @@ class TaskController extends Controller
     {
         $tasks = Task::all();
         
-        return view('tasks.all-tasks')
-         ->with( 'tasks', $tasks);
+        return  $tasks;
     }
 
     public static function getByUserId($user_id)
     {
         $tasks = Task::where('user_id', $user_id)->get();             
-        return view('tasks.all-tasks')
-         ->with( 'tasks', $tasks);
+        return $tasks;
     }
 
     public static function store(Request $request)
     {
         $task = Task::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'priority' => $request->priority,
             'description' => $request->description
         ]);
 
-        return Redirect::route('tasks', Auth::user()->id);
+        return $task;
 
         
     }
@@ -63,10 +61,8 @@ class TaskController extends Controller
         $task->description = $request->description;
        
         $task->save();
-
-        return Redirect::route('tasks', $task->user_id);
-
-        
+        return $task;
+                
     }
 
     public static function trash($id)
@@ -94,7 +90,7 @@ class TaskController extends Controller
         $task = $task[0];
         $deleted= Task::where('id', $id)->delete();
 
-        return Redirect::route('tasks', $task->user_id);
+        return $task->user_id;
 
         
     }

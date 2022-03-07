@@ -6,10 +6,12 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 lg:py-6">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 lg:py-5">
+        <h2 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600 mx-20">Are you sure?</h2>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 mx-20">
                 <x-jet-validation-errors class="mb-4" />
 
+                
                 <form method="POST" action="{{ route('delete-task', $task->id) }}">
                     @csrf
                     @method('DELETE')                  
@@ -26,7 +28,7 @@
 
                     <div class="mt-4">
                         <x-jet-label for="password" value="{{ __('Description') }}" />
-                        <x-jet-input id="password" class="block mt-1 w-full" type="text" rows="2" name="description" :value="$task->description" required disabled/>
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3" id="description" name="description" style="resize:none" value="$task->description" disabled>{{$task->description}}</textarea>
                     </div>
 
 

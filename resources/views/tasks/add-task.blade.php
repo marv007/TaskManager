@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 mx-20">
                 <x-jet-validation-errors class="mb-4" />
 
-                <form method="POST" action="{{ route('add-tasks') }}">
+                <form method="POST" action="{{ route('add-task', $user_id) }}">
                     @csrf
 
                     <div>

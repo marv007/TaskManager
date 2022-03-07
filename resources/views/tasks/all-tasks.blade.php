@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tasks') }}
+            {{ __($user->name.' Tasks') }}
         </h2>
     </x-slot>
 
     <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <a href="{{ URL::route('add-tasks') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg mb-5"> Add task </a>
+        <a href="{{ URL::route('add-task', $user->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg mb-5"> Add task </a>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-5">                
                 @if(count($tasks)>0)
                 <table class="min-w-full">
