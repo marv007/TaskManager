@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 lg:py-6">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 mx-20">
                 <x-jet-validation-errors class="mb-4" />
 
                 <form method="POST" action="{{ route('update-user', $user->id) }}">
