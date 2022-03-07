@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 /*
@@ -34,7 +35,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/{user_id}', 
 function ($user_id) {
     if(Auth::user()->hasRole('admin') || Auth::user()->id==$user_id){
-        return TaskController::getByUserId($user_id);
+        $tasks = TaskController::getByUserId($user_id);
+        $user = UserController::getById($user_id);
+        return view('tasks.all-tasks')
+        ->with( 'tasks', $tasks)->with('user', $user);
     }else{
         abort(404);        
     }
@@ -42,11 +46,21 @@ function ($user_id) {
 }
 )->name('tasks');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/add-tasks', 
-function () {
-    return View::make('tasks\add-task');
+Route::middleware(['auth:sanctum', 'verified'])->get('/add-task/{user_id}', 
+function ($user_id) {
+    //return View::make('tasks\add-task');
+     return view('tasks.add-task')
+    ->with( 'user_id', $user_id); 
 }
-)->name('add-tasks');
+)->name('add-task');
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/add-task/{user_id}', 
+function ($user_id, Request $request){
+    $request-> user_id = $user_id;
+    $task= TaskController::store($request);
+    return Redirect::route('tasks', $task->user_id); 
+}
+)->name('add-task');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-task/{id}', 
 function ($id) {
@@ -54,16 +68,13 @@ function ($id) {
 }
 )->name('edit-task');
 
-Route::middleware(['auth:sanctum', 'verified'])->post('/add-tasks', 
-function (Request $request){
-    return TaskController::store($request);
-}
-)->name('add-tasks');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->put('/update-task/{id}', 
 function ($id, Request $request){
     $request->id = $id;
-    return TaskController::update($request);
+    $task=  TaskController::update($request);
+    return Redirect::route('tasks', $task->user_id);
 }
 )->name('update-task');
 
@@ -75,7 +86,8 @@ function ($id){
 
 Route::middleware(['auth:sanctum', 'verified'])->delete('/delete-task/{id}', 
 function ($id){    
-    return TaskController::delete($id);
+    $user_id = TaskController::delete($id);
+    return Redirect::route('tasks', $user_id);
 }
 )->name('delete-task');
 
@@ -91,3 +103,15 @@ function ($id, Request $request){
     return UserController::update($request);
 }
 )->name('update-user');
+Route::middleware(['auth:sanctum', 'verified'])->get('/delete-user/{id}', 
+function ($id){    
+    return UserController::trash($id);    
+}
+)->name('trash-user');
+
+Route::middleware(['auth:sanctum', 'verified'])->delete('/delete-user/{id}', 
+function ($id){    
+    UserController::delete($id);
+    return Redirect::route('dashboard');
+}
+)->name('delete-user');
